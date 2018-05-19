@@ -68,13 +68,9 @@ Just run `pipenv install LIB_NAME_ON_PYPI` and then `pipenv lock` to lock the ve
 - Run `git commit -m "Your message" -n` to skip the hook if you need.
 
 ## Deployment
-### How to test Heroku deployment
-Push your changes to a branch and visit `https://dashboard.heroku.com/new?template=https://bitbucket.org/romeira/ghmonitor/tree/master`.
 
-### How to add a 'Deploy to Heroku' button
-Read [this](https://devcenter.heroku.com/articles/heroku-button#adding-the-heroku-button).
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
-P.S. if you want to deploy in a different way please check the `app.json` file for what needs to be configured.
 
 ## Credits
 This project, was created using [django-react-boilerplate](https://github.com/vintasoftware/django-react-boilerplate) by [Vinta](https://www.vinta.com.br).
