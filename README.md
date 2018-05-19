@@ -35,8 +35,6 @@ After completing ALL of the above, remove this `Project bootstrap` section from 
   `cp ghmonitor/settings/local.py.example ghmonitor/settings/local.py` (remembering you should replace `ghmonitor` with your project's name!).
 - Create a copy of ``.env.example``:  
   `cp .env.example .env`
-- Create the migrations for `users` app (do this, then remove this line from the README):  
-  `python manage.py makemigrations`
 - If you get an "there's no module named Django" error, install it through `pip install django<2` and try the step above again.
 - Run the migrations:  
   `python manage.py migrate`
