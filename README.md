@@ -20,11 +20,6 @@ Also, includes a Heroku `app.json` and a working Django `production.py` settings
 - Sendgrid, for e-mail sending
 - Papertrail, for logs and platform errors alerts (must set them manually)
 
-## Project bootstrap [![CircleCI](https://circleci.com/gh/vintasoftware/django-react-boilerplate.svg?style=svg)](https://circleci.com/gh/vintasoftware/django-react-boilerplate)
-- [ ] Check for outdated npm dependencies with `npm outdated` and update them.
-- [ ] Change the `SERVER_EMAIL` to the email address used to send e-mails.
-
-After completing ALL of the above, remove this `Project bootstrap` section from the project README. Then follow `Running` below.
 
 ## Running
 ### Setup
@@ -70,7 +65,6 @@ Just run `pipenv install LIB_NAME_ON_PYPI` and then `pipenv lock` to lock the ve
 ## Deployment
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
 
 ## Credits
 This project, was created using [django-react-boilerplate](https://github.com/vintasoftware/django-react-boilerplate) by [Vinta](https://www.vinta.com.br).
