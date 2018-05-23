@@ -21,6 +21,13 @@
       "description": "Django settings Python import path",
       "value": "ghmonitor.settings.production"
     },
+    "SOCIAL_AUTH_GITHUB_KEY": {
+      "description": "Client ID",
+      "value": "4a86ce0d9a4d9614cad7"
+    },
+    "SOCIAL_AUTH_GITHUB_SECRET": {
+      "description": "Client Secret"
+    },
     "SECRET_KEY": {
       "description": "Django SECRET_KEY setting",
       "generator": "secret"

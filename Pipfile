@@ -1,12 +1,9 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
-
 [dev-packages]
-
 bandit = "*"
 coverage = "*"
 django-debug-toolbar = "*"
@@ -20,9 +17,7 @@ prospector = {git = "https://github.com/vintasoftware/prospector.git", ref="0a63
 pylint = "*"
 safety = "*"
 
-
 [packages]
-
 django = ">=1.11,<2"
 celery = {extras = ["redis"]}
 django-model-utils = "*"
@@ -37,8 +32,7 @@ dj-database-url = "*"
 gunicorn = "*"
 whitenoise = "*"
 ipython = "*"
-
+social-auth-app-django = "*"
 
 [requires]
-
 python_version = "3.6"
