@@ -1,5 +1,3 @@
-from functools import partial
-
 from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
@@ -8,11 +6,10 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 
 import django_js_reverse.views
-from social_django import views as oauth_views
 
 
-index_view = TemplateView.as_view(template_name='core/index.html')
-login_view = partial(oauth_views.auth, backend='github')
+index_view = TemplateView.as_view(template_name='api/index.html')
+login_view = TemplateView.as_view(template_name='auth/login.html')
 logout_view = auth_views.logout
 
 urlpatterns = [
