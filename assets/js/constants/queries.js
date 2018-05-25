@@ -2,18 +2,16 @@ import gql from "graphql-tag"
 
 
 export const GET_BRANCHES = gql`
-query ($repo: String!, $since: GitTimestamp) {
+query ($repo: String!, $count: Int!, $since: GitTimestamp) {
   viewer {
     repository(name: $repo) {
-      refs(first: 100, refPrefix: "refs/heads/") {
-        edges {
-          node {
-            name
-            target {
-              ... on Commit {
-                history(since: $since) {
-                  totalCount
-                }
+      refs(first: $count, refPrefix: "refs/heads/") {
+        nodes {
+          name
+          target {
+            ... on Commit {
+              history(since: $since) {
+                totalCount
               }
             }
           }
@@ -27,3 +25,34 @@ query ($repo: String!, $since: GitTimestamp) {
   }
 }
 ` 
+
+export const GET_COMMITS = gql`
+query ($repo: String!, $branch: String!, $count: Int!, $since: GitTimestamp) {
+  viewer {
+    repository(name: $repo) {
+      ref(qualifiedName: $branch){
+        target {
+          ... on Commit {
+            history(first: $count, since: $since) {
+              nodes {
+                id
+                abbreviatedOid
+                messageHeadline
+                authoredDate
+                commitUrl
+                committer {
+                  name
+                }
+              }
+              pageInfo {
+                endCursor
+                hasNextPage
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`
