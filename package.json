@@ -39,6 +39,7 @@
     ]
   },
   "dependencies": {
+    "apollo-boost": "^0.1.6",
     "autoprefixer": "^7.1.1",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
@@ -53,6 +54,8 @@
     "expose-loader": "^0.7.3",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^0.11.2",
+    "graphql": "^0.13.2",
+    "graphql-tag": "^2.9.2",
     "imports-loader": "^0.7.1",
     "jquery": "^3.2.1",
     "lodash": "^4.17.4",
@@ -63,6 +66,7 @@
     "postcss-loader": "^2.0.6",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
+    "react-apollo": "^2.1.4",
     "react-dom": "^15.6.1",
     "redux": "^3.7.1",
     "resolve-url-loader": "^2.1.0",
