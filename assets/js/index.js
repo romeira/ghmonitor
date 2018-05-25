@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import ApolloClient from 'apollo-boost'
 import { Query } from "react-apollo";
 import { ApolloProvider } from "react-apollo";
-import { GET_BRANCHES } from './constants/queries'
+import { GET_REPO_META } from './constants/queries'
 
 
 // no django: user.social_auth.get(provider='github')
@@ -20,9 +20,10 @@ const client = new ApolloClient({
 
 
 const GetBranches = () => (
-  <Query query={GET_BRANCHES}
+  <Query query={GET_REPO_META}
     variables={{
       repo: "ghmonitor",
+      count: 30,
       since: "2018-05-01T00:00:00"
     }}
   >
