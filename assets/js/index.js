@@ -1,7 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import ApolloClient from "apollo-boost"
-import gql from "graphql-tag"
+import ApolloClient from 'apollo-boost'
+import { Query } from "react-apollo";
+import { ApolloProvider } from "react-apollo";
+import { GET_BRANCHES } from './constants/queries'
+
 
 // no django: user.social_auth.get(provider='github')
 const AUTH_TOKEN = "";
@@ -10,42 +13,40 @@ const client = new ApolloClient({
   uri: "https://api.github.com/graphql",
   request: (operation) => {
     operation.setContext({
-      headers: {
-        Authorization: "bearer " + AUTH_TOKEN
-      },
+      headers: { Authorization: "bearer " + AUTH_TOKEN },
     });
   },
 });
 
 
-client.query({
-    query: gql`
-    query {
-        user (login: "pauloromeira") {
-         repository(name: "onegram") {
-           refs(first: 100, refPrefix: "refs/heads/") {
-             edges {
-               node {
-                 name
-                 target {
-                   ... on Commit {
-                     history(since: "2018-05-01T00:00:00") {
-                       totalCount
-                     }
-                   }
-                 }
-               }
-             }
-             pageInfo {
-               endCursor
-               hasNextPage
-             }
-           }
-         }
-       }
-     }
-    `
-}).then(result => console.log(result));
+const GetBranches = () => (
+  <Query query={GET_BRANCHES}
+    variables={{
+      repo: "ghmonitor",
+      since: "2018-05-01T00:00:00"
+    }}
+  >
+    {({ loading, error, data }) => {
+      if (loading) return <p>Loading...</p>;
+      if (error) return <p>Error :(</p>;
+
+      console.log(data);
+
+      return (
+        <p>test</p>
+      );
+    }}
+  </Query>
+);
 
 
-ReactDOM.render(<h1>Hello World</h1>, document.getElementById('react-app'));
+const App = () => (
+  <ApolloProvider client={client}>
+    <div>
+      <h2>My first Apollo app 🚀</h2>
+      <GetBranches></GetBranches>
+    </div>
+  </ApolloProvider>
+);
+
+ReactDOM.render(<App></App>, document.getElementById('react-app'));
