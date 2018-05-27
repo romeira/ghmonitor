@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'webpack_loader',
     'import_export',
     'social_django',
+    'graphene_django',
 
     'common',
     'users',
@@ -57,6 +58,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'ghmonitor.urls'
+
+GRAPHENE = {
+    'SCHEMA': 'ghmonitor.schema.schema'
+}
 
 TEMPLATES = [
     {

@@ -33,6 +33,7 @@ gunicorn = "*"
 whitenoise = "*"
 ipython = "*"
 social-auth-app-django = "*"
+graphene-django = "*"
 
 [requires]
 python_version = "3.6"
