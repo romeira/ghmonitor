@@ -11,6 +11,9 @@ class Repository(IndexedTimeStampedModel):
     def __str__(self):
         return f'{self.owner.username}/{self.name}'
 
+    class Meta:
+        verbose_name_plural = 'Repositories'
+
 
 class Commit(IndexedTimeStampedModel):
     oid = models.CharField(max_length=40)
