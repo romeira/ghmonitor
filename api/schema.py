@@ -37,11 +37,10 @@ class Query(graphene.AbstractType):
 
         if name is not None:
             *owner, name = name.rsplit('/', 1)
-            kw = {'name': name, 'owner': user}
-            if owner:
-                kw['owner__username'] = owner[0]
+            if owner and owner[-1] != user.username:
+                return None
 
-            return Repository.objects.get(**kw)
+            return Repository.objects.get(name=name, owner=user)
 
         return None
 
