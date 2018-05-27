@@ -7,7 +7,6 @@ from .models import Commit, Repository
 class RepositoryType(DjangoObjectType):
 
     class Meta:
-        exclude_fields = ('owner',)
         model = Repository
 
 
