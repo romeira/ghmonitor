@@ -17,6 +17,7 @@ prospector = {git = "https://github.com/vintasoftware/prospector.git", ref="0a63
 pylint = "*"
 safety = "*"
 mitmproxy = "*"
+ipdb = "*"
 
 [packages]
 django = ">=1.11,<2"
