@@ -13,6 +13,7 @@ class Repository(IndexedTimeStampedModel):
 
     class Meta:
         verbose_name_plural = 'Repositories'
+        unique_together = ('owner', 'name')
 
 
 class Commit(IndexedTimeStampedModel):
@@ -29,6 +30,7 @@ class Commit(IndexedTimeStampedModel):
 
     class Meta:
         ordering = ('-date', )
+        unique_together = ('oid', 'repository')
 
     def __str__(self):
         return self.short_oid
