@@ -6,7 +6,7 @@ from .queries import GET_REPO_META
 from .transport import RequestsTransport
 
 
-class GithubApi:
+class GithubClient:
 
     def __init__(self, token, endpoint=None):
         transport = RequestsTransport(
