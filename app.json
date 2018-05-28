@@ -31,6 +31,13 @@
     "SECRET_KEY": {
       "description": "Django SECRET_KEY setting",
       "generator": "secret"
+    },
+    "SUPERUSER_NAME": {
+      "description": "Django superuser username",
+      "value": "admin"
+    },
+    "SUPERUSER_PASSWORD": {
+      "description": "Django superuser password"
     }
   },
   "formation": {

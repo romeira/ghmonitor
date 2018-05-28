@@ -17,4 +17,14 @@ if [ -n "$AUTO_MIGRATE" ] && [ "$AUTO_MIGRATE" == 1 ]; then
         python manage.py migrate --noinput
 fi
 
+if [ -n "$SUPERUSER_NAME" ] && [ -n "$SUPERUSER_PASSWORD" ]; then
+        echo "-----> Creating django superuser"
+        echo "from users.models import User;" \
+             "User.objects.filter(username='$SUPERUSER_NAME').delete();" \
+             "User.objects.create_superuser(username='$SUPERUSER_NAME'," \
+                                           "email='admin@admin.com'," \
+                                           "password='$SUPERUSER_PASSWORD')" \
+             | python manage.py shell
+fi
+
 echo "-----> Post-compile done"
