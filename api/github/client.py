@@ -31,12 +31,14 @@ class GithubClient:
         # return self._client.execute(query, variables)
 
 
-    def get_repo_meta(self, name):
+    def repo_branches(self, name):
+        # TODO [romeira]: pagination {28/05/18 01:13}
         variables = {
             'repo': name,
             'count': 30
         }
-        response = self.execute(GET_REPO_META, variables)
+        # TODO [romeira]: REPO_BRANCHES {28/05/18 01:27}
+        response = self.execute(REPO_BRANCHES, variables)
         return response
 
 

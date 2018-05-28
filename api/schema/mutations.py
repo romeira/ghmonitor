@@ -19,7 +19,7 @@ class AddRepository(graphene.Mutation):
         repository = github.repo_check(name)
         ok = bool(repository)
 
-        # TODO [romeira]: add repo {27/05/18 23:33}
+        if ok: add_repository(user.id, token, repository)
 
         return AddRepository(ok=ok, repository=repository)
 
