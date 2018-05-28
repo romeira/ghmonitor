@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "269358154873cdc70544a71bd5ccaf333afab8193284c7af18d3c8b5caa28a91"
+            "sha256": "481202c56c0dac58d921c40c5fc61da4e8fba79544fc6281815f2df90fc2f8ba"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -145,7 +145,6 @@
                 "sha256:24d7f2f94f7f3cb6061acb215685e5125fbcdc40a857eff9de22518820b0a4f4",
                 "sha256:702a91ade2968a82beb0db1e0766a6a273f33d4616a6ce8cde475d8e09853b20"
             ],
-            "markers": "python_version >= '3.0'",
             "version": "==0.5.0"
         },
         "diff-match-patch": {
@@ -294,6 +293,14 @@
                 "sha256:5861f6dc0c16e024cbb0044999f9cf8013b292c05f287df06d3d991a87a4eb89"
             ],
             "version": "==0.12.0"
+        },
+        "jmespath": {
+            "hashes": [
+                "sha256:6a81d4c9aa62caf061cb517b4d9ad1dd300374cd4706997aff9cd6aedd61fc64",
+                "sha256:f11b4461f425740a1d908e9a3f7365c3d2e569f6ca68a2ff8bc5bcd9676edd63"
+            ],
+            "index": "pypi",
+            "version": "==0.9.3"
         },
         "kombu": {
             "hashes": [

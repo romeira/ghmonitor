@@ -1,5 +1,6 @@
 import graphene
 from graphene_django.types import DjangoObjectType
+from jmespath import search as jsearch
 
 from .github import GithubApi
 from .models import Commit, Repository
@@ -64,8 +65,9 @@ class AddRepository(graphene.Mutation):
         token = user.social_auth.get(provider='github').access_token
         api = GithubApi(token)
         repo_meta = api.get_repo_meta(name)
+        ok = bool(jsearch('viewer.repository', repo_meta))
         # TODO [romeira]: AddRepository {27/05/18 21:59}
-        return AddRepository(ok=True)
+        return AddRepository(ok=ok)
 
 
 class Mutation:
