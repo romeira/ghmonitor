@@ -11,14 +11,10 @@ query ($repo: String!) {
 }
 ''')
 
-GET_REPO_META = gql('''
+REPO_BRANCHES = gql('''
 query ($repo: String!, $count: Int!, $cursor: String, $since: GitTimestamp) {
   viewer{
     repository(name: $repo) {
-      name
-      owner {
-        login
-      }
       refs(first: $count, refPrefix: "refs/heads/", after: $cursor) {
         nodes {
           name

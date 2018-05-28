@@ -1,8 +1,9 @@
 from django.conf import settings
-from jmespath import search as jsearch
-from gql import Client
 
-from .queries import REPO_CHECK, GET_REPO_META
+from gql import Client
+from jmespath import search as jsearch
+
+from .queries import REPO_BRANCHES, REPO_CHECK
 from .transport import RequestsTransport
 
 
@@ -31,18 +32,35 @@ class GithubClient:
         # return self._client.execute(query, variables)
 
 
-    def repo_branches(self, name):
-        # TODO [romeira]: pagination {28/05/18 01:13}
-        variables = {
-            'repo': name,
-            'count': 30
-        }
-        # TODO [romeira]: REPO_BRANCHES {28/05/18 01:27}
-        response = self.execute(REPO_BRANCHES, variables)
-        return response
-
-
     def repo_check(self, name):
         variables = {'repo': name}
         response = self.execute(REPO_CHECK, variables)
+        # TODO [romeira]: move to constants {28/05/18 10:41}
         return jsearch('viewer.repository.name', response)
+
+
+    def repo_branches(self, name):
+        variables = {
+            'repo': name,
+            'count': 30,
+            # 'since': 
+        }
+        # TODO [romeira]: move to constants {28/05/18 10:40}
+        branches_path = 'viewer.repository.refs.nodes[?target.history.totalCount > `0`].name'
+        pages_path = 'viewer.repository.refs.pageInfo'
+        pages = self.pagination(pages_path, REPO_BRANCHES, variables)
+        for page in pages:
+            branches = jsearch(branches_path, page)
+            if branches:
+                yield from branches
+
+
+    def pagination(self, pages_path, query, variables={}):
+        response = self.execute(query, variables)
+        yield response
+        pages = jsearch(pages_path, response)
+        while pages and pages.get('hasNextPage', False):
+            variables['cursor'] = pages['endCursor']
+            response = self.execute(query, variables)
+            yield response
+            pages = jsearch(pages_path, response)
