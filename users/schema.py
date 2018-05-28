@@ -10,7 +10,7 @@ class UserType(DjangoObjectType):
         model = User
 
 
-class Query(graphene.AbstractType):
+class Query:
     user = graphene.Field(UserType)
 
     def resolve_user(self, info, **kwargs):

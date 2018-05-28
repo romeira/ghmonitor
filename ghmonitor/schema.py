@@ -4,9 +4,15 @@ import api.schema
 import users.schema
 
 
-class Query(api.schema.Query,
-            users.schema.Query,
-            graphene.ObjectType):
+class Queries(api.schema.Query,
+              users.schema.Query,
+              graphene.ObjectType):
     pass
 
-schema = graphene.Schema(query=Query)
+
+class Mutations(api.schema.Mutation,
+                graphene.ObjectType):
+    pass
+
+
+schema = graphene.Schema(query=Queries, mutation=Mutations)
