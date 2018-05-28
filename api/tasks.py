@@ -1,7 +1,10 @@
 from users.models import User
-from .models import Repository, Commit
-from github import GithubClient
 
+from .github import GithubClient
+from .models import Commit, Repository
+
+
+# TODO [romeira]: celery tasks {28/05/18 12:33}
 
 def add_repository(user_id, github_token, repo_name):
     repository, _ = Repository.objects.update_or_create(
@@ -13,7 +16,7 @@ def add_repository(user_id, github_token, repo_name):
     branches = github.repo_branches(repo_name)
 
     for branch, total_commits in branches:
-        add_commits(repository.id, github_token, branch, total_commits)
+        add_commits(repository.id, github_token, repo_name, branch, total_commits)
 
 
 def add_commits(repository_id, github_token, repo_name, branch_name, total_commits):
@@ -21,5 +24,13 @@ def add_commits(repository_id, github_token, repo_name, branch_name, total_commi
     commits = github.branch_commits(repo_name, branch_name, total_commits)
 
     for commit in commits:
-        commit['repository_id'] = repository_id
-        Commit.objects.update_or_create(**commit)
+        Commit.objects.update_or_create(
+            oid=commit['oid'],
+            short_oid=commit['abbreviatedOid'],
+            message_head=commit['messageHeadline'],
+            message=commit['message'],
+            date=commit['committedDate'],
+            url=commit['commitUrl'],
+            committer=commit['committer'],
+            repository_id=repository_id,
+        )

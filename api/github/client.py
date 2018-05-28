@@ -1,10 +1,11 @@
 from datetime import datetime, timedelta
-from django.conf import settings
-from jmespath import search as jsearch
-from gql import Client
 
-from .queries import REPO_CHECK, REPO_BRANCHES
-from .queries import BRANCH_COMMITS
+from django.conf import settings
+
+from gql import Client
+from jmespath import search as jsearch
+
+from .queries import BRANCH_COMMITS, REPO_BRANCHES, REPO_CHECK
 from .transport import RequestsTransport
 
 
@@ -16,15 +17,7 @@ class GithubClient:
             use_json=True,
         )
         transport.session.headers['Authorization'] = f'bearer {token}'
-        # TODO [romeira]: put on settings {28/05/18 11:56}
         self._since = datetime.now() - timedelta(days=30)
-
-        # TODO [romeira]: remove proxy {27/05/18 22:53}
-        transport.session.verify = False
-        transport.session.proxies =  {
-            'http': 'http://127.0.0.1:8080',
-            'https': 'https://127.0.0.1:8080',
-        }
 
         self._client = Client(
             retries=3,
@@ -51,7 +44,9 @@ class GithubClient:
             'since': self._since.isoformat()
         }
         # TODO [romeira]: move to constants {28/05/18 10:40}
-        branches_path = 'viewer.repository.refs.nodes[?target.history.totalCount > `0`].[name, target.history.totalCount]'
+        branches_path = ('viewer.repository.refs.nodes'
+                         '[?target.history.totalCount > `0`].'
+                         '[name, target.history.totalCount]')
         pages_path = 'viewer.repository.refs.pageInfo'
         pages = self.pagination(pages_path, REPO_BRANCHES, variables)
         for page in pages:
@@ -68,6 +63,7 @@ class GithubClient:
             'count': count,
             'since': self._since.isoformat()
         }
+        # TODO [romeira]: move to constants {28/05/18 10:40}
         commits_path = 'viewer.repository.ref.target.history.nodes'
         pages_path = 'viewer.repository.ref.target.history.pageInfo'
         pages = self.pagination(pages_path, BRANCH_COMMITS, variables)
@@ -86,5 +82,3 @@ class GithubClient:
             response = self.execute(query, variables)
             yield response
             pages = jsearch(pages_path, response)
-
-
