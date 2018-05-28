@@ -1,7 +1,6 @@
-from requests import Session
-
 from graphql.execution import ExecutionResult
 from graphql.language.printer import print_ast
+from requests import Session
 
 
 class RequestsTransport():
@@ -24,8 +23,7 @@ class RequestsTransport():
         response.raise_for_status()
 
         result = response.json()
-        assert (('errors' in result or 'data' in result),
-                f'Received non-compatible response "{result}"')
+        assert ('errors' in result or 'data' in result), f'Received non-compatible response "{result}"'
 
         return ExecutionResult(
             errors=result.get('errors'),
