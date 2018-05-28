@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta
 from django.conf import settings
 from jmespath import search as jsearch
 from gql import Client
@@ -15,6 +16,8 @@ class GithubClient:
             use_json=True,
         )
         transport.session.headers['Authorization'] = f'bearer {token}'
+        # TODO [romeira]: put on settings {28/05/18 11:56}
+        self._since = datetime.now() - timedelta(days=30)
 
         # TODO [romeira]: remove proxy {27/05/18 22:53}
         transport.session.verify = False
@@ -45,7 +48,7 @@ class GithubClient:
         variables = {
             'repo': repo,
             'count': 30,
-            # 'since': TODO
+            'since': self._since.isoformat()
         }
         # TODO [romeira]: move to constants {28/05/18 10:40}
         branches_path = 'viewer.repository.refs.nodes[?target.history.totalCount > `0`].[name, target.history.totalCount]'
@@ -63,7 +66,7 @@ class GithubClient:
             'repo': repo,
             'branch': branch,
             'count': count,
-            # 'since': TODO
+            'since': self._since.isoformat()
         }
         commits_path = 'viewer.repository.ref.target.history.nodes'
         pages_path = 'viewer.repository.ref.target.history.pageInfo'
