@@ -1,9 +1,7 @@
 import graphene
 from graphene_django.types import DjangoObjectType
-from jmespath import search as jsearch
 
-from .github import GithubApi
-from .models import Commit, Repository
+from api.models import Commit, Repository
 
 
 class RepositoryType(DjangoObjectType):
@@ -51,29 +49,3 @@ class Query:
         return Commit.objects.select_related('repository').filter(
                    repository__owner=info.context.user
                )
-
-
-class AddRepository(graphene.Mutation):
-    class Arguments:
-        name = graphene.String()
-
-    ok = graphene.Boolean()
-    repository = graphene.String()
-
-    @staticmethod
-    def mutate(root, info, name):
-        user = info.context.user
-        token = user.social_auth.get(provider='github').access_token
-        api = GithubApi(token)
-        repo_meta = api.get_repo_meta(name)
-
-        repository = jsearch('viewer.repository.name', repo_meta)
-        ok = bool(repository)
-
-        # TODO [romeira]: add repo {27/05/18 23:33}
-
-        return AddRepository(ok=ok, repository=repository)
-
-
-class Mutation:
-    add_repository = AddRepository.Field()
