@@ -1,6 +1,16 @@
 from gql import gql
 
 
+REPO_CHECK = gql('''
+query ($repo: String!) {
+  viewer{
+    repository(name: $repo) {
+      name
+    }
+  }
+}
+''')
+
 GET_REPO_META = gql('''
 query ($repo: String!, $count: Int!, $cursor: String, $since: GitTimestamp) {
   viewer{

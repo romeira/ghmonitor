@@ -1,6 +1,6 @@
 import graphene
 from api.github import GithubClient
-from jmespath import search as jsearch
+from api.tasks import add_repository
 
 
 class AddRepository(graphene.Mutation):
@@ -15,9 +15,8 @@ class AddRepository(graphene.Mutation):
         user = info.context.user
         token = user.social_auth.get(provider='github').access_token
         github = GithubClient(token)
-        repo_meta = github.get_repo_meta(name)
 
-        repository = jsearch('viewer.repository.name', repo_meta)
+        repository = github.repo_check(name)
         ok = bool(repository)
 
         # TODO [romeira]: add repo {27/05/18 23:33}

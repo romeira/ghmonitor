@@ -1,8 +1,8 @@
 from django.conf import settings
-
+from jmespath import search as jsearch
 from gql import Client
 
-from .queries import GET_REPO_META
+from .queries import REPO_CHECK, GET_REPO_META
 from .transport import RequestsTransport
 
 
@@ -38,3 +38,9 @@ class GithubClient:
         }
         response = self.execute(GET_REPO_META, variables)
         return response
+
+
+    def repo_check(self, name):
+        variables = {'repo': name}
+        response = self.execute(REPO_CHECK, variables)
+        return jsearch('viewer.repository.name', response)
