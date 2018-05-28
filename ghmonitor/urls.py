@@ -7,6 +7,8 @@ from django.views.generic import TemplateView
 
 import django_js_reverse.views
 
+from api.views import GraphQLView
+
 
 index_view = TemplateView.as_view(template_name='api/index.html')
 login_view = TemplateView.as_view(template_name='auth/login.html')
@@ -21,6 +23,8 @@ urlpatterns = [
     url(r'^logout/$', logout_view, name='logout'),
 
     url('^oauth/', include('social_django.urls', namespace='social')),
+
+    url(r'^graphql', GraphQLView.as_view(graphiql=True)),
 ]
 
 if settings.DEBUG:

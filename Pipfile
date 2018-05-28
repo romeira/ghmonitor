@@ -16,6 +16,8 @@ pre-commit = "*"
 prospector = {git = "https://github.com/vintasoftware/prospector.git", ref="0a63f2b", extras = ["with-vulture"]}
 pylint = "*"
 safety = "*"
+mitmproxy = "*"
+ipdb = "*"
 
 [packages]
 django = ">=1.11,<2"
@@ -33,6 +35,8 @@ gunicorn = "*"
 whitenoise = "*"
 ipython = "*"
 social-auth-app-django = "*"
+graphene-django = "*"
+jmespath = "*"
 
 [requires]
 python_version = "3.6"

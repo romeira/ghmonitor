@@ -38,9 +38,11 @@ INSTALLED_APPS = [
     'webpack_loader',
     'import_export',
     'social_django',
+    'graphene_django',
 
     'common',
     'users',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -56,6 +58,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'ghmonitor.urls'
+
+GRAPHENE = {
+    'SCHEMA': 'ghmonitor.schema.schema'
+}
 
 TEMPLATES = [
     {
@@ -139,3 +145,6 @@ CELERY_RESULT_SERIALIZER = 'json'
 SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 SOCIAL_AUTH_GITHUB_KEY = config('SOCIAL_AUTH_GITHUB_KEY')
 SOCIAL_AUTH_GITHUB_SECRET = config('SOCIAL_AUTH_GITHUB_SECRET')
+
+# Github
+GITHUB_ENDPOINT = 'https://api.github.com/graphql'

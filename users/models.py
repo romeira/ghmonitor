@@ -23,6 +23,7 @@ class User(AbstractBaseUser, PermissionsMixin, IndexedTimeStampedModel):
     objects = UserManager()
 
     USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
 
     def get_full_name(self):
         return self.username
