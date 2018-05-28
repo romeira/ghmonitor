@@ -3,22 +3,22 @@ from .models import Repository, Commit
 from github import GithubClient
 
 
-def add_repository(user_id, github_token, repository_name):
+def add_repository(user_id, github_token, repo_name):
     repository, _ = Repository.objects.update_or_create(
         owner_id=user_id,
-        name=repository_name
+        name=repo_name
     )
 
     github = GithubClient(github_token)
-    branches = github.repo_branches(repository_name)
+    branches = github.repo_branches(repo_name)
 
-    for branch in branches:
-        add_commits(repository.id, github_token, branch)
+    for branch, total_commits in branches:
+        add_commits(repository.id, github_token, branch, total_commits)
 
 
-def add_commits(repository_id, github_token, branch_name):
+def add_commits(repository_id, github_token, repo_name, branch_name, total_commits):
     github = GithubClient(github_token)
-    commits = github.branch_commits(repository_name)
+    commits = github.branch_commits(repo_name, branch_name, total_commits)
 
     for commit in commits:
         commit['repository_id'] = repository_id

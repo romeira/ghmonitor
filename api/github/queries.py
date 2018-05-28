@@ -36,7 +36,7 @@ query ($repo: String!, $count: Int!, $cursor: String, $since: GitTimestamp) {
 }
 ''')
 
-GET_COMMITS = gql('''
+BRANCH_COMMITS = gql('''
 query ($repo: String!, $branch: String!, $count: Int!, $cursor: String, $since: GitTimestamp) {
   viewer {
     repository(name: $repo) {
@@ -44,12 +44,12 @@ query ($repo: String!, $branch: String!, $count: Int!, $cursor: String, $since: 
         target {
           ... on Commit {
             history(first: $count, since: $since, after: $cursor) {
-              totalCount
               nodes {
-                id
+                oid
                 abbreviatedOid
                 messageHeadline
-                authoredDate
+                message
+                committedDate
                 commitUrl
                 committer {
                   name
