@@ -58,6 +58,7 @@ class AddRepository(graphene.Mutation):
         name = graphene.String()
 
     ok = graphene.Boolean()
+    repository = graphene.String()
 
     @staticmethod
     def mutate(root, info, name):
@@ -65,9 +66,13 @@ class AddRepository(graphene.Mutation):
         token = user.social_auth.get(provider='github').access_token
         api = GithubApi(token)
         repo_meta = api.get_repo_meta(name)
-        ok = bool(jsearch('viewer.repository', repo_meta))
-        # TODO [romeira]: AddRepository {27/05/18 21:59}
-        return AddRepository(ok=ok)
+
+        repository = jsearch('viewer.repository.name', repo_meta)
+        ok = bool(repository)
+
+        # TODO [romeira]: add repo {27/05/18 23:33}
+
+        return AddRepository(ok=ok, repository=repository)
 
 
 class Mutation:

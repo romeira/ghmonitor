@@ -5,6 +5,7 @@ GET_REPO_META = gql('''
 query ($repo: String!, $count: Int!, $cursor: String, $since: GitTimestamp) {
   viewer{
     repository(name: $repo) {
+      name
       owner {
         login
       }
