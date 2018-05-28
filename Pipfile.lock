@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "481202c56c0dac58d921c40c5fc61da4e8fba79544fc6281815f2df90fc2f8ba"
+            "sha256": "1fe6cb78bba7d04b04972b58e48a91ee64859d0ab5ab86763993de4ea8cbdd04"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -18,10 +18,10 @@
     "default": {
         "amqp": {
             "hashes": [
-                "sha256:b17591ceb27192195f00c04e848dd4fcda2dc72a8eb27ea3ffa899299679c185",
-                "sha256:e28da24204bb1cdae9446a66eecbaac69659fea6a44ce58a10a7a7dae5ecd679"
+                "sha256:408b131bf8d0e19d3926a6682dc0ed6dc561aade5e0a173162c76657e1b68e72",
+                "sha256:790e5366272a5b301fb969bd0d22b0adfee19f80cebf6e2dcef39c3b2236dedc"
             ],
-            "version": "==2.3.0"
+            "version": "==2.3.1"
         },
         "aniso8601": {
             "hashes": [
@@ -213,6 +213,13 @@
                 "sha256:614d9722d572f6246302c4491846d2c393c199cfa4edc9af593437691683335b"
             ],
             "version": "==1.0.1"
+        },
+        "gql": {
+            "hashes": [
+                "sha256:d20cf1eb1c6d54558174a3dcc3cf1ca0e07678cb1123804c2e165838238350f4"
+            ],
+            "index": "pypi",
+            "version": "==0.1.0"
         },
         "graphene": {
             "hashes": [

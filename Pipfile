@@ -37,6 +37,7 @@ ipython = "*"
 social-auth-app-django = "*"
 graphene-django = "*"
 jmespath = "*"
+gql = "*"
 
 [requires]
 python_version = "3.6"
