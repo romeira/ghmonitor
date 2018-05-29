@@ -35,9 +35,10 @@ gunicorn = "*"
 whitenoise = "*"
 ipython = "*"
 social-auth-app-django = "*"
-graphene-django = "*"
+graphene-django = {git = 'https://github.com/graphql-python/graphene-django.git', ref = 'a480a39713d33', editable = true}
 jmespath = "*"
 gql = "*"
+django-filter = "*"
 
 [requires]
 python_version = "3.6"

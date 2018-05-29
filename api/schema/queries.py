@@ -1,51 +1,58 @@
 import graphene
+import django_filters
+
+from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
+from django_filters import FilterSet
 
 from api.models import Commit, Repository
 
 
-class RepositoryType(DjangoObjectType):
+class RepositoryNode(DjangoObjectType):
 
     class Meta:
         model = Repository
+        interfaces = (graphene.Node,)
 
 
-class CommitType(DjangoObjectType):
+class RepositoryFilter(FilterSet):
+
+    class Meta:
+        model = Repository
+        fields = ['name']
+
+    @property
+    def qs(self):
+        return super(RepositoryFilter, self).qs.filter(owner=self.request.user)
+
+
+class CommitNode(DjangoObjectType):
+    class Meta:
+        model = Commit
+        interfaces = (graphene.Node,)
+
+
+class CommitFilter(FilterSet):
 
     class Meta:
         model = Commit
+        fields = ['oid']
+
+    @property
+    def qs(self):
+        return (super(CommitFilter, self).qs.
+                select_related('repository').
+                filter(repository__owner=self.request.user))
 
 
 class Query:
-    repository = graphene.Field(RepositoryType, 
-                                id=graphene.Int(),
-                                name=graphene.String())
 
-    repositories = graphene.List(RepositoryType)
-    commits = graphene.List(CommitType)
+    repositories = DjangoFilterConnectionField(
+            RepositoryNode,
+            filterset_class=RepositoryFilter
+    )
 
-    def resolve_repository(self, info, **kwargs):
-        user = info.context.user
-
-        id = kwargs.get('id')
-        name = kwargs.get('name')
-
-        if id is not None:
-            return Repository.objects.get(pk=id, owner=user)
-
-        if name is not None:
-            *owner, name = name.rsplit('/', 1)
-            if owner and owner[-1] != user.username:
-                return None
-
-            return Repository.objects.get(name=name, owner=user)
-
-        return None
-
-    def resolve_repositories(self, info, **kwargs):
-        return Repository.objects.filter(owner=info.context.user)
-
-    def resolve_commits(self, info, **kwargs):
-        return Commit.objects.select_related('repository').filter(
-                   repository__owner=info.context.user
-               )
+    commits = DjangoFilterConnectionField(
+            CommitNode,
+            filterset_class=CommitFilter
+    )

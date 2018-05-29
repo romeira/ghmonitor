@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "1fe6cb78bba7d04b04972b58e48a91ee64859d0ab5ab86763993de4ea8cbdd04"
+            "sha256": "0dd3bf57da8029845a4821a7c1c894432369d682c5ce302f073fa5b66e5fb6dc"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -169,6 +169,14 @@
             "index": "pypi",
             "version": "==1.11.13"
         },
+        "django-filter": {
+            "hashes": [
+                "sha256:ea204242ea83790e1512c9d0d8255002a652a6f4986e93cee664f28955ba0c22",
+                "sha256:ec0ef1ba23ef95b1620f5d481334413700fb33f45cd76d56a63f4b0b1d76976a"
+            ],
+            "index": "pypi",
+            "version": "==1.1.0"
+        },
         "django-import-export": {
             "hashes": [
                 "sha256:15d076086ec0af8ba4e70772b99cdf99b52ca1863328c6aaa91185010a1bb907",
@@ -229,12 +237,9 @@
             "version": "==2.1.1"
         },
         "graphene-django": {
-            "hashes": [
-                "sha256:5cabf46b59f242a533fe1df1912c87d5ad6606246937609be2e6c9086cfdf7a4",
-                "sha256:70d9358bc48c806b6a9458e8344f0a1211cd1f1ef923a092aa55e6bcacc2c3fc"
-            ],
-            "index": "pypi",
-            "version": "==2.0.0"
+            "editable": true,
+            "git": "https://github.com/graphql-python/graphene-django.git",
+            "ref": "a480a39713d33"
         },
         "graphql-core": {
             "hashes": [
@@ -1089,11 +1094,11 @@
         },
         "pre-commit": {
             "hashes": [
-                "sha256:b1d5e9c63ce2312d978dc95815f0b446b8dd05d332a010a1bac983aefe542d0b",
-                "sha256:dc318b280e7b1c5315eb78ed02dc31b3d776e2bc3ce510e8403857f00c17e645"
+                "sha256:4e7d6fde2d22abe6823e44a447197f9f2ff25822675f5245827e15be7ea1aba7",
+                "sha256:dc8dc3f293d384fcd787cfb76f142c02540741eeef0822831983c827beff87ab"
             ],
             "index": "pypi",
-            "version": "==1.10.0"
+            "version": "==1.10.1"
         },
         "prompt-toolkit": {
             "hashes": [
