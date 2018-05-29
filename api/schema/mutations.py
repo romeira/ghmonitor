@@ -15,7 +15,8 @@ class AddRepository(graphene.Mutation):
         user = info.context.user
         token = user.social_auth.get(provider='github').access_token
         github = GithubClient(token)
-
+        # TODO [romeira]: improve {29/05/18 00:48}
+        name = name.rsplit('/', 1)[-1]
         repository = github.repo_check(name)
         ok = bool(repository)
 
