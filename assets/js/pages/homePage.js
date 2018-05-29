@@ -33,6 +33,11 @@ const AddRepo = () => {
               e.preventDefault();
               addRepo({ variables: { name: input.value } }).then(
                 res => {
+                  if (res.data.addRepository.ok) {
+                    alert(res.data.addRepository.repository + ' added!');
+                  } else {
+                    alert('An error ocurred. Please check the repository name');
+                  }
                 }
               )
               input.value = "";
@@ -54,13 +59,11 @@ const AddRepo = () => {
 
 const GetCommits = () => (
   <Query query={GET_COMMITS}
-    // pollInterval={1000}
+    pollInterval={1000}
   >
     {({ loading, error, data }) => {
       if (loading) return <p>Loading...</p>;
       if (error) return <p>Error :(</p>;
-
-      console.log(data);
 
       return (
         <div>
