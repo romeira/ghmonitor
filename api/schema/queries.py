@@ -27,6 +27,7 @@ class RepositoryFilter(FilterSet):
 
 
 class CommitNode(DjangoObjectType):
+
     class Meta:
         model = Commit
         interfaces = (graphene.Node,)
