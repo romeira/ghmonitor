@@ -11,7 +11,7 @@ import { Mutation } from "react-apollo";
 
 const link = createHttpLink({
   uri: 'https://ghmonitor.local.com:8000/graphql',
-  credentials: 'same-origin',
+  credentials: 'include',
 });
 
 
@@ -31,7 +31,10 @@ const AddRepo = () => {
           <form
             onSubmit={e => {
               e.preventDefault();
-              addRepo({ variables: { name: input.value } });
+              addRepo({ variables: { name: input.value } }).then(
+                res => {
+                }
+              )
               input.value = "";
             }}
           >
@@ -50,7 +53,9 @@ const AddRepo = () => {
 
 
 const GetCommits = () => (
-  <Query query={GET_COMMITS}>
+  <Query query={GET_COMMITS}
+    // pollInterval={1000}
+  >
     {({ loading, error, data }) => {
       if (loading) return <p>Loading...</p>;
       if (error) return <p>Error :(</p>;
@@ -59,7 +64,11 @@ const GetCommits = () => (
 
       return (
         <div>
-        {data.commits.map(c => <p key={c.oid}><a href={c.url}>{c.shortOid}</a> [{c.repository.name}] {c.messageHead} </p>)}
+        {data.commits.edges.map(c =>
+            <p key={c.node.shortOid}>
+              <a href={c.node.url}>{c.node.shortOid} </a>
+              [{c.node.repository.name}] {c.node.messageHead}
+            </p>)}
         </div>
       );
     }}

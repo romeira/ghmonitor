@@ -4,13 +4,17 @@ import gql from "graphql-tag"
 export const GET_COMMITS = gql`
 {
   commits {
-    oid
-    shortOid
-    messageHead
-    date
-    url
-    repository {
-      name
+    edges {
+      node {
+        oid
+        shortOid
+        messageHead
+        date
+        url
+        repository{
+          name
+        }
+      }
     }
   }
 }
