@@ -61,7 +61,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'ghmonitor.urls'
 
 GRAPHENE = {
-    'SCHEMA': 'ghmonitor.schema.schema'
+    'SCHEMA': 'ghmonitor.graphql.schema.schema'
 }
 
 TEMPLATES = [

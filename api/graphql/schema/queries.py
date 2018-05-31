@@ -1,11 +1,9 @@
-import graphene
 import django_filters
-
+import graphene
+from api.models import Commit, Repository
+from django_filters import FilterSet
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
-from django_filters import FilterSet
-
-from api.models import Commit, Repository
 
 
 class RepositoryNode(DjangoObjectType):

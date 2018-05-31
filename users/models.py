@@ -3,8 +3,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from common.models import IndexedTimeStampedModel
-
-from .managers import UserManager
+from users.managers import UserManager
 
 
 class User(AbstractBaseUser, PermissionsMixin, IndexedTimeStampedModel):

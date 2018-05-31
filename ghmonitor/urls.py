@@ -6,8 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 
 import django_js_reverse.views
-
-from api.views import GraphQLView
+from api.graphql.views import GraphQLView
 
 
 index_view = TemplateView.as_view(template_name='api/index.html')
