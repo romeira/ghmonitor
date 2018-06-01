@@ -16,6 +16,7 @@ class GithubClient:
             endpoint=endpoint or settings.GITHUB_ENDPOINT,
             use_json=True,
         )
+        self.token = token
         transport.session.headers['Authorization'] = f'bearer {token}'
         self._since = datetime.now() - timedelta(days=30)
 
