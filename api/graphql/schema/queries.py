@@ -40,7 +40,6 @@ class CommitFilter(FilterSet):
     @property
     def qs(self):
         return (super(CommitFilter, self).qs.
-                select_related('repository').
                 filter(repository__owner=self.request.user))
 
 
