@@ -24,6 +24,8 @@ def add_commits(repository_id, github_token, repo_name, branch_name, total_commi
     commits = github.branch_commits(repo_name, branch_name, total_commits)
 
     for commit in commits:
+        # TODO [romeira]: use jmespath to get fields to
+        # avoid keyerror exceptions {31/05/18 22:19}
         Commit.objects.update_or_create(
             oid=commit['oid'],
             short_oid=commit['abbreviatedOid'],
@@ -31,6 +33,6 @@ def add_commits(repository_id, github_token, repo_name, branch_name, total_commi
             message=commit['message'],
             date=commit['committedDate'],
             url=commit['commitUrl'],
-            committer=commit['committer'],
+            committer=commit['committer'].get('name'),
             repository_id=repository_id,
         )
