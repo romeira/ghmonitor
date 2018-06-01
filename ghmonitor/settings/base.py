@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'import_export',
     'social_django',
     'graphene_django',
+    'rest_framework',
 
     'common',
     'users',
