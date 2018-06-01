@@ -1,4 +1,4 @@
-from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
 from api.models import Repository, Commit
@@ -6,7 +6,7 @@ from api.models import Repository, Commit
 from .serializers import RepositorySerializer, CommitSerializer
 
 
-class CommitViewSet(ReadOnlyModelViewSet):
+class CommitViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Commit.objects.all()
     serializer_class = CommitSerializer
@@ -16,7 +16,7 @@ class CommitViewSet(ReadOnlyModelViewSet):
         return self.queryset.filter(repository__owner=self.request.user)
 
 
-class RepositoryViewSet(ReadOnlyModelViewSet):
+class RepositoryViewSet(viewsets.ModelViewSet):
 
     queryset = Repository.objects.all()
     serializer_class = RepositorySerializer
@@ -25,3 +25,5 @@ class RepositoryViewSet(ReadOnlyModelViewSet):
     def get_queryset(self):
         return self.queryset.filter(owner=self.request.user)
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
