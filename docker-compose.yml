@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  postgres:
+    image: "postgres"
+    volumes:
+        - ./db.postgres/:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: ghmonitor
+      POSTGRES_PASSWORD: ghmonitor
+    ports:
+     - "5555:5432"
+
+  redis:
+    image: "redis"
+    ports:
+     - "6379:6379"
+
+  celery_worker:
+    build: .
+    image: "ghmonitor"
+    depends_on: 
+      - redis
+    volumes: 
+      - .:/app
+    command: celery worker -A ghmonitor -l info -b redis://redis
+
+  babel:
+    image: "node"
+    working_dir: /app
+    volumes:
+      - .:/app
+    expose:
+      - "3000"
+    ports:
+     - "3000:3000"
+    command: bash -c "npm install && npm run start"
