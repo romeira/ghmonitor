@@ -28,10 +28,14 @@ class RepositoryViewSet(mixins.CreateModelMixin,
     def get_queryset(self):
         return self.queryset.filter(owner=self.request.user)
 
+    def get_serializer_context(self):
+        context = super(RepositoryViewSet, self).get_serializer_context()
+        user = context['request'].user
+        token = user.social_auth.get(provider='github').access_token
+        context['github_client'] = GithubClient(token)
+        return context
+
     def perform_create(self, serializer):
         repo = serializer.save(owner=self.request.user)
-
-        user = self.request.user
-        token = user.social_auth.get(provider='github').access_token
-
-        fetch_commits.delay(repo.id, token)
+        github_client = serializer.context['github_client']
+        fetch_commits(repo, github_client)

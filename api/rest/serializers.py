@@ -12,9 +12,7 @@ class RepositorySerializer(HyperlinkedModelSerializer):
         exclude = ('owner',)
 
     def validate_name(self, value):
-        user = self.context['request'].user
-        token = user.social_auth.get(provider='github').access_token
-        github = GithubClient(token)
+        github = self.context['github_client']
         repo = github.repo_check(value)
         if not repo:
             raise ValidationError('Invalid repository')
