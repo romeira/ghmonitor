@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  postgres:
+    image: "postgres"
+    volumes:
+        - ./db.postgres/:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: ghmonitor
+      POSTGRES_PASSWORD: ghmonitor
+    ports:
+     - "5555:5432"
+
+  rabbitmq:
+    image: "rabbitmq"
+    ports:
+     - "5672:5672"
+
+  celery_worker:
+    build: .
+    image: "ghmonitor"
+    depends_on: 
+      - rabbitmq
+      - postgres
+    volumes: 
+      - .:/app
+    environment:
+      RABBITMQ_URL: amqp://rabbitmq
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+    command: celery worker -A ghmonitor -l info
+
+  babel:
+    image: "node"
+    working_dir: /app
+    volumes:
+      - .:/app
+    expose:
+      - "3000"
+    ports:
+     - "3000:3000"
+    command: bash -c "npm install && npm run start"
