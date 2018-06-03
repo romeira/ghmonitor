@@ -1,6 +1,8 @@
 import graphene
+
 from api.github import GithubClient
-from api.tasks import add_repository
+from api.models import Repository
+from api.tasks import fetch_commits
 
 
 class AddRepository(graphene.Mutation):
@@ -15,14 +17,14 @@ class AddRepository(graphene.Mutation):
         user = info.context.user
         token = user.social_auth.get(provider='github').access_token
         github = GithubClient(token)
-        # TODO [romeira]: improve {29/05/18 00:48}
-        name = name.rsplit('/', 1)[-1]
-        repository = github.repo_check(name)
-        ok = bool(repository)
+        name = github.repo_check(name)
+        ok = bool(name)
 
-        if ok: add_repository(user.id, token, repository)
+        if ok:
+            repo, _ = Repository.objects.get_or_create(owner=user, name=name)
+            fetch_commits(repo, github)
 
-        return AddRepository(ok=ok, repository=repository)
+        return AddRepository(ok=ok, repository=repo)
 
 
 class Mutation:
