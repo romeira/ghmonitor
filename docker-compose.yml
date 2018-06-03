@@ -11,19 +11,24 @@ services:
     ports:
      - "5555:5432"
 
-  redis:
-    image: "redis"
+  rabbitmq:
+    image: "rabbitmq"
     ports:
-     - "6379:6379"
+     - "5672:5672"
 
   celery_worker:
     build: .
     image: "ghmonitor"
     depends_on: 
-      - redis
+      - rabbitmq
+      - postgres
     volumes: 
       - .:/app
-    command: celery worker -A ghmonitor -l info -b redis://redis
+    environment:
+      RABBITMQ_URL: amqp://rabbitmq
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+    command: celery worker -A ghmonitor -l info
 
   babel:
     image: "node"
