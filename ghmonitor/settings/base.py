@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'import_export',
     'social_django',
     'graphene_django',
+    'rest_framework',
 
     'common',
     'users',
@@ -50,7 +51,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     # TODO [romeira]: find a solution to use csrf with graphql {28/05/18 15:54}
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -62,6 +63,12 @@ ROOT_URLCONF = 'ghmonitor.urls'
 
 GRAPHENE = {
     'SCHEMA': 'ghmonitor.graphql.schema.schema'
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    )
 }
 
 TEMPLATES = [

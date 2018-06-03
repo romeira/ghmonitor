@@ -6,7 +6,9 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic import TemplateView
 
 import django_js_reverse.views
+
 from api.graphql.views import GraphQLView
+from api.rest.routers import router as rest_router
 
 
 index_view = TemplateView.as_view(template_name='api/index.html')
@@ -23,7 +25,9 @@ urlpatterns = [
 
     url('^oauth/', include('social_django.urls', namespace='social')),
 
-    url(r'^graphql', GraphQLView.as_view(graphiql=True)),
+    url(r'^graphql/', GraphQLView.as_view(graphiql=True)),
+    url(r'^rest/', include(rest_router.urls)),
+    url(r'^rest/auth', include('rest_framework.urls')),
 ]
 
 if settings.DEBUG:

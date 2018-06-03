@@ -1,36 +1,30 @@
-from users.models import User
-
-from .github import GithubClient
-from .models import Commit, Repository
+from jmespath import search as jsearch
+from api.models import Commit
 
 
-# TODO [romeira]: celery tasks {28/05/18 12:33}
+# TODO [romeira]: use celery {03/06/18 14:06}
+def fetch_commits(repository, github_client):
+    branches = github_client.repo_branches(repository.name)
 
-def add_repository(user_id, github_token, repo_name):
-    repository, _ = Repository.objects.update_or_create(
-        owner_id=user_id,
-        name=repo_name
-    )
-
-    github = GithubClient(github_token)
-    branches = github.repo_branches(repo_name)
-
-    for branch, total_commits in branches:
-        add_commits(repository.id, github_token, repo_name, branch, total_commits)
+    for branch, commits_count in branches:
+        save_commits(repository, github_client, branch, commits_count)
 
 
-def add_commits(repository_id, github_token, repo_name, branch_name, total_commits):
-    github = GithubClient(github_token)
-    commits = github.branch_commits(repo_name, branch_name, total_commits)
+def save_commits(repository, github_client, branch, commits_count):
+    commits = github_client.branch_commits(repository.name,
+                                           branch, commits_count)
 
     for commit in commits:
+        f = lambda path: jsearch(path, commit)
         Commit.objects.update_or_create(
             oid=commit['oid'],
-            short_oid=commit['abbreviatedOid'],
-            message_head=commit['messageHeadline'],
-            message=commit['message'],
-            date=commit['committedDate'],
-            url=commit['commitUrl'],
-            committer=commit['committer'],
-            repository_id=repository_id,
+            repository_id=repository.id,
+            defaults={ 
+                'short_oid': f('abbreviatedOid'),
+                'message_head': f('messageHeadline'),
+                'message': f('message'),
+                'date': f('committedDate'),
+                'url': f('commitUrl'),
+                'committer': f('committer.name'),
+            }
         )
