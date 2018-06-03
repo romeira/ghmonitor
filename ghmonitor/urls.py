@@ -27,6 +27,7 @@ urlpatterns = [
 
     url(r'^graphql/', GraphQLView.as_view(graphiql=True)),
     url(r'^rest/', include(rest_router.urls)),
+    url(r'^rest/auth', include('rest_framework.urls')),
 ]
 
 if settings.DEBUG:

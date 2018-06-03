@@ -4,23 +4,28 @@ from api.github import GithubClient
 from api.models import Commit, Repository
 
 
-def fetch_commits(repository, github_client):
-    branches = github_client.repo_branches(repository.name)
+@task
+def fetch_commits(repo_id, github_token):
+    repo = Repository.objects.get(id=repo_id)
+    github = GithubClient(github_token)
+    branches = github.repo_branches(repo.name)
 
-    job = group(_save_commits.s(repository.id,
-                                repository.name,
-                                github_client.token,
-                                branch,
-                                total_commits)
-                for branch, total_commits in branches)
+    for branch, commits_count in branches:
+        _save_commits.delay(
+            repo.id,
+            repo.name,
+            github_token,
+            branch,
+            commits_count
+        )
 
-    job.delay()
+    return repo.name
 
 
 @task
-def _save_commits(repo_id, repo_name, github_token, branch_name, total_commits):
+def _save_commits(repo_id, repo_name, github_token, branch_name, commits_count):
     github = GithubClient(github_token)
-    commits = github.branch_commits(repo_name, branch_name, total_commits)
+    commits = github.branch_commits(repo_name, branch_name, commits_count)
 
     for commit in commits:
         # TODO [romeira]: use jmespath to get fields to
@@ -38,3 +43,4 @@ def _save_commits(repo_id, repo_name, github_token, branch_name, total_commits):
             }
         )
 
+    return repo_name, branch_name

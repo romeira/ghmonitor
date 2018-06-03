@@ -56,8 +56,8 @@ class GithubClient:
                 yield from branches
 
 
-    def branch_commits(self, repo, branch, total_commits=None):
-        count = min(total_commits, 100) if total_commits else 30
+    def branch_commits(self, repo, branch, commits_count=None):
+        count = min(commits_count, 100) if commits_count else 30
         variables = {
             'repo': repo,
             'branch': branch,
