@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Urls } from 'utils'
 import CommitItem from './Item'
 
 
-class CommitList extends Component {
-  constructor() {
-    super()
+class CommitList extends React.Component {
+  constructor(...args) {
+    super(...args)
     this.state = {
       commits: [],
       isLoading: false
@@ -16,8 +16,9 @@ class CommitList extends Component {
     this.setState({ isLoading: true })
     const url = Urls['commit-list']()
     const options = { credentials: 'same-origin' }
+
     fetch(url, options)
-      .then(result => (result.json()))
+      .then(response => (response.json()))
       .then(data => {
         this.setState({
           commits: data,
@@ -27,13 +28,14 @@ class CommitList extends Component {
   }
 
   render() {
-    if (this.state.isLoading) {
+    const { isLoading, commits } = this.state
+
+    if (isLoading) {
       return <p>Loading...</p>
     }
-    console.log(Urls)
     return (
       <div>
-        {this.state.commits.map(data => <CommitItem key={data.oid} data={data} />)}
+        {commits.map(data => <CommitItem key={data.oid} data={data} />)}
       </div>
     )
   }
