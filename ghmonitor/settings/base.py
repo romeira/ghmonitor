@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'social_django',
     'graphene_django',
     'rest_framework',
+    'django_filters',
 
     'common',
     'users',
