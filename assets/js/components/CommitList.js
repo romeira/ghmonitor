@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import { Urls } from 'utils'
 import Commit from './Commit'
 
@@ -41,4 +41,4 @@ class CommitList extends React.Component {
   }
 }
 
-export default CommitList;
+export default CommitList

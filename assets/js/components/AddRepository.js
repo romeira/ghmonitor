@@ -1,45 +1,22 @@
 import React, { Component } from 'react'
-import { Urls } from 'utils'
+import PropTypes from 'prop-types'
 
 
-class AddRepository extends Component {
+const AddRepository = ({ onSubmit }) => {
+  let input = null
 
-  constructor(...args){
-    super(...args)
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
-
-  handleSubmit(event) {
-    event.preventDefault()
-    const { value } = this.input
-
-    const url = Urls['repository-list']()
-    const options = {
-      credentials: 'same-origin',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name: value })
-    }
-
-    fetch(url, options)
-      .then(response =>{
-      })
-  }
-
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <label>Repository:
-          <input ref={node => this.input = node} type="text" />
-          <button type="submit">Submit</button>
-        </label>
-      </form>
-
-    )
-
-  }
-
+  return (
+    <form onSubmit={e => {e.preventDefault(); onSubmit(input.value)}}>
+      <label>Repository:
+      <input ref={node => input = node} type="text" />
+        <button type="submit">Submit</button>
+      </label>
+    </form>
+  )
 }
+
+AddRepository.propTypes = {
+  onSubmit: PropTypes.func.isRequired
+}
+
 export default AddRepository
