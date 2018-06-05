@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Urls } from 'utils'
 
 
-class RepositoryForm extends Component {
+class AddRepository extends Component {
 
   constructor(...args){
     super(...args)
@@ -25,7 +25,6 @@ class RepositoryForm extends Component {
 
     fetch(url, options)
       .then(response =>{
-        debugger
       })
   }
 
@@ -43,4 +42,4 @@ class RepositoryForm extends Component {
   }
 
 }
-export default RepositoryForm
+export default AddRepository

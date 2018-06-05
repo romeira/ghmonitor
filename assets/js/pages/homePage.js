@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { CommitList, RepositoryForm } from 'components'
+import { CommitList, AddRepository } from 'components'
 
 
 const App = () => (
   <div>
     <h1>Github Monitor</h1>
-    <RepositoryForm />
+    <AddRepository />
     <CommitList />
   </div>
 );

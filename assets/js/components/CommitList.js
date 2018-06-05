@@ -1,6 +1,6 @@
 import React from 'react';
 import { Urls } from 'utils'
-import CommitItem from './Item'
+import Commit from './Commit'
 
 
 class CommitList extends React.Component {
@@ -35,7 +35,7 @@ class CommitList extends React.Component {
     }
     return (
       <div>
-        {commits.map(data => <CommitItem key={data.oid} data={data} />)}
+        {commits.map(data => <Commit key={data.oid} data={data} />)}
       </div>
     )
   }
