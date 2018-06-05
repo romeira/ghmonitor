@@ -1,16 +1,20 @@
-from rest_framework import viewsets, mixins
+from django_filters import rest_framework as filters
+from rest_framework import mixins, viewsets
 
-from api.models import Repository, Commit
-from api.tasks import fetch_commits
 from api.github import GithubClient
+from api.models import Commit, Repository
+from api.tasks import fetch_commits
 
-from .serializers import RepositorySerializer, CommitSerializer
+from .serializers import CommitSerializer, RepositorySerializer
 
 
 class CommitViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Commit.objects.all()
     serializer_class = CommitSerializer
+
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_fields = ('repository__name',)
 
     def get_queryset(self):
         return self.queryset.filter(repository__owner=self.request.user)
