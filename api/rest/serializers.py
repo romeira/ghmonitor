@@ -1,11 +1,10 @@
-from rest_framework.serializers import HyperlinkedModelSerializer
-from rest_framework.serializers import ValidationError
+from rest_framework import serializers
 
 from api.models import Commit, Repository
 from api.github import GithubClient
 
 
-class RepositorySerializer(HyperlinkedModelSerializer):
+class RepositorySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Repository
@@ -15,7 +14,7 @@ class RepositorySerializer(HyperlinkedModelSerializer):
         github = self.context['github_client']
         repo = github.repo_check(value)
         if not repo:
-            raise ValidationError('Invalid repository')
+            raise serializers.ValidationError('Invalid repository')
         return repo
 
 
@@ -23,8 +22,9 @@ class RepositorySerializer(HyperlinkedModelSerializer):
         return Repository.objects.get_or_create(**validated_data)[0]
 
 
-class CommitSerializer(HyperlinkedModelSerializer):
+class CommitSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Commit
         fields = '__all__'
+        depth = 1
