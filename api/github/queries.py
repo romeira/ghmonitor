@@ -4,6 +4,7 @@ from gql import gql
 REPO_CHECK = gql('''
 query ($repo: String!) {
   viewer{
+    login
     repository(name: $repo) {
       name
     }
