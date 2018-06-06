@@ -1,7 +1,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { selectRepository, fetchCommitsIfNeeded, invalidateRepository } from '../actions'
+import { selectRepository,
+         fetchCommitsIfNeeded,
+         invalidateRepository,
+         addRepository
+} from '../actions'
 import { CommitList, AddRepository } from '../components'
 
 
@@ -9,19 +13,20 @@ class App extends Component {
   constructor(...args){
     super(...args)
 
+    this.handleAdd = this.handleAdd.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleRefreshClick = this.handleRefreshClick.bind(this)
   }
 
   componentDidMount() {
-    const { dispatch, selectedRepository } = this.props
-    dispatch(fetchCommitsIfNeeded(selectedRepository))
+    const { dispatch, repository } = this.props
+    dispatch(fetchCommitsIfNeeded(repository))
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedRepository !== this.props.selectedRepository) {
-      const { dispatch, selectedRepository } = nextProps
-      dispatch(fetchCommitsIfNeeded(selectedRepository))
+    if (nextProps.repository !== this.props.repository) {
+      const { dispatch, repository } = nextProps
+      dispatch(fetchCommitsIfNeeded(repository))
     }
   }
 
@@ -29,12 +34,16 @@ class App extends Component {
     this.props.dispatch(selectRepository(nextRepository))
   }
 
+  handleAdd(repository) {
+    this.props.dispatch(addRepository(repository))
+  }
+
   handleRefreshClick(e){
     e.preventDefault()
 
-    const { dispatch, selectedRepository } = this.props
-    dispatch(invalidateRepository(selectedRepository))
-    dispatch(fetchCommitsIfNeeded(selectedRepository))
+    const { dispatch, repository } = this.props
+    dispatch(invalidateRepository(repository))
+    dispatch(fetchCommitsIfNeeded(repository))
   }
 
   render() {
@@ -42,7 +51,7 @@ class App extends Component {
     const isEmpty = commits.length === 0
     return (
       <div>
-        <AddRepository onSubmit={this.handleChange} />
+        <AddRepository onSubmit={this.handleAdd} />
         <p>
           {lastUpdated &&
             <span>
@@ -68,7 +77,7 @@ class App extends Component {
 }
 
 App.propTypes = {
-  selectedRepository: PropTypes.string.isRequired,
+  repository: PropTypes.string,
   commits: PropTypes.array.isRequired,
   isFetching: PropTypes.bool.isRequired,
   lastUpdated: PropTypes.number,
@@ -76,18 +85,18 @@ App.propTypes = {
 }
 
 const mapStateToProps = state => {
-  const { selectedRepository, commitsByRepository } = state
+  const { repository, commitsByRepository } = state
   const {
     isFetching,
     lastUpdated,
     items: commits
-  } = commitsByRepository[selectedRepository] || {
+  } = commitsByRepository[repository] || {
     isFetching: true,
     items: []
   }
 
   return {
-    selectedRepository,
+    repository,
     commits,
     isFetching,
     lastUpdated

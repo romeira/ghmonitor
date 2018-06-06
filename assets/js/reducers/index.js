@@ -4,7 +4,7 @@ import {
   REQUEST_COMMITS, RECEIVE_COMMITS
 } from '../actions'
 
-const selectedRepository = (state = '', action) => {
+const selectedRepository = (state = null, action) => {
   switch (action.type) {
     case SELECT_REPOSITORY:
       return action.repository

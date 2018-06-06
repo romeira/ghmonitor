@@ -29,6 +29,33 @@ export const receiveCommits = (repository, commits) => {
   }
 }
 
+
+export const addRepository = repository => dispatch => {
+
+  const url = Urls['repository-list']()
+  const payload = {
+    name: repository
+  };
+  const headers = {
+    "Accept": "application/json",
+    "Content-Type": "application/json"
+  }
+
+  const options = {
+    method: "POST",
+    credentials: 'same-origin',
+    headers: headers,
+    body: JSON.stringify(payload)
+  }
+
+  fetch(url, options)
+    .then(response => {
+      dispatch(invalidateRepository())
+      dispatch(fetchCommitsIfNeeded())
+    })
+}
+
+
 const fetchCommits = repository => dispatch => {
   dispatch(requestCommits(repository))
 
