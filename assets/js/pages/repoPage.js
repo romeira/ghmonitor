@@ -20,13 +20,6 @@ class Repo extends Component {
     dispatch(fetchCommitsIfNeeded(repository))
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.repository !== this.props.repository) {
-  //     const { dispatch, repository } = nextProps
-  //     dispatch(fetchCommitsIfNeeded(repository))
-  //   }
-  // }
-
   handleRefreshClick(e){
     e.preventDefault()
 

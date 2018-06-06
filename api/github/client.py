@@ -32,9 +32,16 @@ class GithubClient:
 
 
     def repo_check(self, name):
-        variables = {'repo': name}
+        *login, repo = name.split('/')
+        if len(login) > 1:
+            return None
+
+        variables = {'repo': repo}
         response = self.execute(REPO_CHECK, variables)
-        # TODO [romeira]: move to constants {28/05/18 10:41}
+
+        if login and login[0] != jsearch('viewer.login', response):
+            return None
+
         return jsearch('viewer.repository.name', response)
 
 

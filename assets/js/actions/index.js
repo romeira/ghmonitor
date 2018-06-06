@@ -31,6 +31,7 @@ export const receiveCommits = (repository, commits) => {
 
 
 export const addRepository = repository => dispatch => {
+  dispatch(requestCommits())
 
   const url = Urls['repository-list']()
   const payload = {
@@ -50,8 +51,7 @@ export const addRepository = repository => dispatch => {
 
   fetch(url, options)
     .then(response => {
-      dispatch(invalidateRepository())
-      dispatch(fetchCommitsIfNeeded())
+      dispatch(fetchCommits())
     })
 }
 
